@@ -1,20 +1,23 @@
 import { Task } from "@utils/task.d.ts";
 
-const API_HOSTNAME = import.meta.env.BACKEND_HOSTNAME;
-
+const API_HOSTNAME = import.meta.env.VITE_BACKEND_HOSTNAME;
+const URL = `${API_HOSTNAME}/tareas`;
+const token = localStorage.getItem("token")
+  ? localStorage.getItem("token")
+  : "";
 // This function fetches all tasks from the API and returns them as a JSON object.
 export const getTasks = async () => {
-  const URL = `${API_HOSTNAME}/tareas`;
   try {
     const response = await fetch(URL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
-    if (!response.ok) {
-      throw new Error("Error fetching tasks");
+    if (response.status === 422 || response.status === 401) {
+      console.log("Token expired, redirecting to login");
+      window.location.href = "/login";
     }
     return response.json();
   } catch (error) {
@@ -31,12 +34,12 @@ export const createTask = async (task: Task) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(task),
     });
-    if (!response.ok) {
-      throw new Error("Error creating task");
+    if (response.status === 422 || response.status === 401) {
+      window.location.href = "/login";
     }
     return response.json();
   } catch (error) {
@@ -53,11 +56,11 @@ export const getTask = async (id: string) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
-    if (!response.ok) {
-      throw new Error("Error fetching task");
+    if (response.status === 422 || response.status === 401) {
+      window.location.href = "/login";
     }
     return response.json();
   } catch (error) {
@@ -70,18 +73,18 @@ export const getTask = async (id: string) => {
 export const updateTask = async (task: Task) => {
   const URL = `${API_HOSTNAME}/tareas/${task.id}`;
   try {
-    const reponse = await fetch(URL, {
+    const response = await fetch(URL, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(task),
     });
-    if (!reponse.ok) {
-      throw new Error("Error updating task");
+    if (response.status === 422 || response.status === 401) {
+      window.location.href = "/login";
     }
-    return reponse.json();
+    return response.json();
   } catch (error) {
     console.error("Error updating task:", error);
     return null;
@@ -96,11 +99,11 @@ export const deleteTask = async (id: string) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
-    if (!response.ok) {
-      throw new Error("Error deleting task");
+    if (response.status === 422 || response.status === 401) {
+      window.location.href = "/login";
     }
     return response.json();
   } catch (error) {
