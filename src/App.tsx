@@ -1,8 +1,10 @@
+import { Navbar } from "@/components/Navbar";
+
 export const App = () => {
   return (
-    <>
-      <div>Hello world</div>
-    </>
+    <div className="bg-white h-screen flex items-center justify-center">
+      <Navbar />
+    </div>
   );
 };
 
