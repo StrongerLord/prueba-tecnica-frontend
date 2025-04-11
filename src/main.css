@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 #root {
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     min-width: 100vw;
     background-color: #000000;
 }
