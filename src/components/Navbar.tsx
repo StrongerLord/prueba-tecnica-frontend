@@ -12,8 +12,8 @@ export const Navbar = () => {
   return (
     <div className="fixed top-0 left-0 h-16 w-full">
       <nav className="flex h-full w-full items-center justify-between bg-white px-1 shadow-md sm:px-4">
-        <div className="hidden text-xl font-bold text-gray-700 lg:flex">
-          Prueba técnica
+        <div className="hidden text-xl font-bold text-blue-600 lg:flex">
+          Tareas App
         </div>
         <div className="flex w-[70%] justify-around space-x-4 md:space-x-2 lg:w-1/2">
           <NavLink to="/" className={buttonsStyle}>
