@@ -5,6 +5,7 @@ import Layout from "@/App";
 import { Home } from "@components/Home";
 import { NewTask } from "@components/NewTask";
 import { EditTask } from "@components/EditTask";
+import { Login } from "@pages/Login";
 import "@/main.css";
 
 createRoot(document.getElementById("root")!).render(
@@ -16,6 +17,8 @@ createRoot(document.getElementById("root")!).render(
           <Route path="new-task" element={<NewTask />} />
           <Route path="edit-task" element={<EditTask />} />
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

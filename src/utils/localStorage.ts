@@ -1,3 +1,3 @@
 export const clearLocalStorage = () => {
-  localStorage.clear();
+  localStorage.removeItem("key");
 };
