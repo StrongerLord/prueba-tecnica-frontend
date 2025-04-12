@@ -131,9 +131,11 @@ export const TableTasks = ({
               {task.title}
             </td>
             <td className="max-w-xs truncate px-6 py-4 text-sm text-gray-500 select-none">
-              <textarea className="h-16 w-64" readOnly>
-                {task.description}
-              </textarea>
+              <textarea
+                className="h-16 w-64"
+                readOnly
+                defaultValue={task.description}
+              />
             </td>
             <td className="px-6 py-4 font-medium whitespace-nowrap text-gray-900 uppercase">
               <div
