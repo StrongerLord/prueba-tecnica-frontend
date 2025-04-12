@@ -27,9 +27,6 @@ export const Home = () => {
       try {
         const tasks = await getTasks();
         if (tasks) {
-          const filteredTasks = tasks.sort(
-            (a: Task, b: Task) => b.priority_id - a.priority_id,
-          );
           setTask(tasks);
         }
       } catch (error) {
