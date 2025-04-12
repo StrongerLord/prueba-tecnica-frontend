@@ -15,7 +15,7 @@ export const App = () => {
       />
       <div className="mt-16 flex min-h-[calc(100vh-4rem)] items-center justify-center bg-white">
         <Navbar />
-        <div className="flex w-full flex-col items-center justify-center overflow-auto">
+        <div className="flex min-h-[calc(100vh-4rem)] w-full flex-col items-center justify-center overflow-auto">
           <Outlet />
         </div>
       </div>
