@@ -22,6 +22,7 @@ export const NewForm = ({
         <input
           type="text"
           required
+          maxLength={30}
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
@@ -35,6 +36,7 @@ export const NewForm = ({
           Descripción
         </label>
         <textarea
+          maxLength={200}
           value={formData.description}
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
