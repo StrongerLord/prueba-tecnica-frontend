@@ -2,10 +2,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Routes, Route, BrowserRouter } from "react-router";
 import Layout from "@/App";
-import { Home } from "@pages/Home";
-import { NewTask } from "@pages/NewTask";
-import { EditTask } from "@pages/EditTask";
-import { Login } from "@pages/Login";
+import { Home } from "@/pages/Home";
+import { NewTask } from "@/pages/NewTask";
+import { EditTask } from "@/pages/EditTask";
+import { Login } from "@/pages/Login";
 import "@/main.css";
 
 createRoot(document.getElementById("root")!).render(

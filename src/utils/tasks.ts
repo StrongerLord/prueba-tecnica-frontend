@@ -12,6 +12,7 @@ export interface NewTask {
 }
 
 export interface UpdateTask {
+  id: number;
   title: string;
   description?: string;
   priority: number;
@@ -106,7 +107,7 @@ export const getTask = async (id: number) => {
 };
 
 // This function updates a task by its ID in the API and returns a backend message.
-export const updateTask = async (task: Task) => {
+export const updateTask = async (task: UpdateTask) => {
   const URL = `${API_HOSTNAME}/tareas/${task.id}`;
   try {
     const token = localStorage.getItem("token");

@@ -36,7 +36,7 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="flex max-h-[calc(100vh-12rem)] max-w-[90%] overflow-auto rounded-2xl bg-gray-200 p-4">
+    <div className="overflow flex max-h-[calc(100vh-12rem)] max-w-[90%] overflow-auto rounded-2xl bg-gray-200 p-4">
       <TableTasks
         task={task}
         deletingID={deletingID}
