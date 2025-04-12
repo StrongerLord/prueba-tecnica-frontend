@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getTask, updateTask } from "@/utils/tasks";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 export const EditTask = () => {
-  const [taskId, setTaskId] = useState("");
+  const [taskId, setTaskId] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    status: "",
-    priority: "",
+    status: 0,
+    status_message: "",
+    priority_message: "",
+    priority: 0,
     expiration_time: new Date(),
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -30,12 +32,17 @@ export const EditTask = () => {
         setFormData({
           title: task.title,
           description: task.description,
-          status: task.status,
-          priority: task.priority,
+          status_message: task.status,
+          priority_message: task.priority,
+          status: task.status_id,
+          priority: task.priority_id,
           expiration_time: new Date(task.expiration_time),
         });
         setTaskFound(true);
-        toast.success("Tarea encontrada");
+        toast.success("Tarea encontrada en la base de datos!");
+      } else {
+        toast.error("Tarea no encontrada en la base de datos");
+        setTaskFound(false);
       }
     } catch (error) {
       toast.error("Tarea no encontrada");
@@ -47,39 +54,61 @@ export const EditTask = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const localDate = new Date(formData.expiration_time);
+    const adjustedDate = new Date(
+      Date.UTC(
+        localDate.getFullYear(),
+        localDate.getMonth(),
+        localDate.getDate(),
+        localDate.getHours(),
+        localDate.getMinutes(),
+      ),
+    );
+
     try {
       const updatedTask = {
         ...formData,
         id: taskId,
-        expiration_time: formData.expiration_time.toISOString(),
+        status: formData.status,
+        priority: formData.priority,
+        expiration_time: adjustedDate.toISOString(),
       };
 
       const response = await updateTask(updatedTask);
       if (response) {
         toast.success("Tarea actualizada correctamente");
         // Resetear formulario después de éxito
-        setTaskId("");
+        setTaskId(0);
         setFormData({
           title: "",
           description: "",
-          status: "",
-          priority: "",
+          status_message: "",
+          priority_message: "",
+          status: 0,
+          priority: 0,
           expiration_time: new Date(),
         });
         setTaskFound(false);
       }
     } catch (error) {
-      toast.error("Error al actualizar la tarea");
+      console.log("Error al actualizar la tarea:", error);
+      toast.error("Error al actualizar la tarea", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
   return (
     <div className="rounded-lg bg-white p-6 shadow-xl">
-      <h2 className="mb-6 text-2xl font-bold text-blue-600">
+      <div className="mb-6 text-2xl font-bold text-blue-600">
         Actualizar Tarea
-      </h2>
-
-      {/* Buscador de ID */}
+      </div>
       <div className="mb-6 flex gap-2">
         <div className="flex-1">
           <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -87,9 +116,9 @@ export const EditTask = () => {
           </label>
           <div className="flex gap-2">
             <input
-              type="text"
+              type="number"
               value={taskId}
-              onChange={(e) => setTaskId(e.target.value)}
+              onChange={(e) => setTaskId(parseInt(e.target.value))}
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
               placeholder="Ingresa el ID de la tarea"
               disabled={taskFound}
@@ -166,7 +195,7 @@ export const EditTask = () => {
               value={formData.status}
               disabled={!taskFound}
               onChange={(e) =>
-                setFormData({ ...formData, status: e.target.value })
+                setFormData({ ...formData, status_message: e.target.value })
               }
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
             >
@@ -189,7 +218,7 @@ export const EditTask = () => {
               disabled={!taskFound}
               value={formData.priority}
               onChange={(e) =>
-                setFormData({ ...formData, priority: e.target.value })
+                setFormData({ ...formData, priority_message: e.target.value })
               }
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
             >
@@ -214,9 +243,9 @@ export const EditTask = () => {
           <DatePicker
             disabled={!taskFound}
             selected={formData.expiration_time}
-            onChange={(date) =>
-              setFormData({ ...formData, expiration_time: date })
-            }
+            onChange={(date) => {
+              setFormData({ ...formData, expiration_time: date as Date });
+            }}
             minDate={new Date()}
             dateFormat="dd/MM/yyyy HH:mm"
             showTimeSelect
@@ -230,7 +259,7 @@ export const EditTask = () => {
             className="px-4 py-2 text-gray-600 hover:text-gray-800"
             onClick={() => {
               setTaskFound(false);
-              setTaskId("");
+              setTaskId(0);
             }}
           >
             Cancelar

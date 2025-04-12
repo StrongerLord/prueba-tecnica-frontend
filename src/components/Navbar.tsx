@@ -2,10 +2,12 @@ import { NavLink } from "react-router";
 import Home from "@assets/home.svg";
 import Form from "@assets/form.svg";
 import Edit from "@assets/edit.svg";
-import { clearLocalStorage } from "@utils/localStorage.ts";
 import Exit from "@assets/exit.svg";
+import { clearLocalStorage } from "@/utils/localStorage";
+import { useNavigate } from "react-router";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   const buttonsStyle =
     "group flex items-center justify-center rounded p-2 text-center text-xs text-gray-700 sm:hover:bg-blue-600 transition-colors hover:text-white sm:text-lg rounded-xl px-1 sm:px-4";
 
@@ -42,10 +44,12 @@ export const Navbar = () => {
           </NavLink>
         </div>
         <div>
-          <NavLink
-            to="/login"
+          <button
+            onClick={() => {
+              clearLocalStorage();
+              navigate("/login");
+            }}
             className={buttonsStyle}
-            onClick={clearLocalStorage()}
           >
             <img
               src={Exit}
@@ -53,7 +57,7 @@ export const Navbar = () => {
               className="inline-block h-8 w-8 invert-75 transition-all group-hover:invert-25 sm:mr-2 sm:h-6 sm:w-6 sm:group-hover:invert-75"
             />
             <div className="hidden sm:flex">Cerrar sesión</div>
-          </NavLink>
+          </button>
         </div>
       </nav>
     </div>

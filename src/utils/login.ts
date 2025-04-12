@@ -10,12 +10,14 @@ export const login = (username: string, password: string) => {
       },
       body: JSON.stringify({ username, password }),
     })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json().then((data) => {
-            localStorage.setItem("token", data.token);
-            window.location.href = "/";
-          });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.token) {
+          const token = data.token;
+          localStorage.setItem("token", token);
+          window.location.href = "/";
+        } else {
+          console.error("No token received");
         }
       })
       .catch((error) => {

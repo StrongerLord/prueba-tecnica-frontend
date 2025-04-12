@@ -1,18 +1,11 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useState } from "react";
 import { login } from "@/utils/login";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/");
-    }
-  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +13,10 @@ export const Login = () => {
 
     try {
       await login(email, password);
+      toast.success("Inicio de sesión exitoso");
     } catch (error) {
-      console.error("Error de autenticación:", error);
+      console.error("Error al iniciar sesión:", error);
+      toast.error("Error al iniciar sesión");
     } finally {
       setIsSubmitting(false);
     }
