@@ -73,7 +73,7 @@ export const UpdateTaskForm = ({
             value={formData.status}
             disabled={!taskFound}
             onChange={(e) =>
-              setFormData({ ...formData, status_message: e.target.value })
+              setFormData({ ...formData, status: parseInt(e.target.value) })
             }
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
           >
@@ -96,7 +96,7 @@ export const UpdateTaskForm = ({
             disabled={!taskFound}
             value={formData.priority}
             onChange={(e) =>
-              setFormData({ ...formData, priority_message: e.target.value })
+              setFormData({ ...formData, priority: parseInt(e.target.value) })
             }
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
           >

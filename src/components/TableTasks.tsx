@@ -55,8 +55,16 @@ export const TableTasks = ({
 
   return (
     <table className="h-auto w-auto divide-y">
-      <thead className="">
+      <thead className="select-none">
         <tr>
+          <th
+            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+            onClick={() => handleSort("id")}
+          >
+            Id
+            {sortConfig.field === "id" &&
+              (sortConfig.direction === "asc" ? "▲" : "▼")}
+          </th>
           <th
             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
             onClick={() => handleSort("title")}
@@ -75,10 +83,10 @@ export const TableTasks = ({
           </th>
           <th
             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
-            onClick={() => handleSort("status")}
+            onClick={() => handleSort("status_id")}
           >
             Estado
-            {sortConfig.field === "status" &&
+            {sortConfig.field === "status_id" &&
               (sortConfig.direction === "asc" ? "▲" : "▼")}
           </th>
           <th
@@ -116,6 +124,9 @@ export const TableTasks = ({
             key={task.id}
             className={`${deletingID === task.id ? "bg-red-300" : "hover:bg-gray-50"}`}
           >
+            <td className="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900 uppercase">
+              {task.id}
+            </td>
             <td className="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900 uppercase">
               {task.title}
             </td>
