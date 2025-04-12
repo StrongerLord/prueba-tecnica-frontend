@@ -15,7 +15,6 @@ export const Home = () => {
       if (response) {
         setTask((prevTasks) => prevTasks.filter((task) => task.id !== id));
         toast.success("Tarea eliminada con éxito");
-        console.log("Holaa");
       } else {
         toast.error("Error al eliminar la tarea");
       }
@@ -27,9 +26,15 @@ export const Home = () => {
     const fetchTasks = async () => {
       try {
         const tasks = await getTasks();
-        if (tasks) setTask(tasks);
+        if (tasks) {
+          const filteredTasks = tasks.sort(
+            (a: Task, b: Task) => b.priority_id - a.priority_id,
+          );
+          setTask(tasks);
+        }
       } catch (error) {
         console.error("Error fetching tasks:", error);
+        toast.error("Error fetching tasks:");
       }
     };
     fetchTasks();

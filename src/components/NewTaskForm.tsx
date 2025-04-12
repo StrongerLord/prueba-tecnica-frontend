@@ -1,18 +1,16 @@
 import DatePicker from "react-datepicker";
-import { Task } from "@/utils/tasks";
+import { NewTask } from "@/utils/tasks";
 
 interface NewFormProps {
-  onFormSubmit: (formData: Task) => Promise<void> | void;
-  initialData?: Partial<Task>;
-  isLoading?: boolean;
-  onCancel?: () => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  formData: NewTask;
+  setFormData: React.Dispatch<React.SetStateAction<NewTask>>;
 }
 
 export const NewForm = ({
-  onFormSubmit,
-  initialData,
-  isLoading,
-  onCancel,
+  handleSubmit,
+  formData,
+  setFormData,
 }: NewFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -55,7 +53,7 @@ export const NewForm = ({
           <select
             value={formData.status}
             onChange={(e) =>
-              setFormData({ ...formData, status: e.target.value })
+              setFormData({ ...formData, status: parseInt(e.target.value) })
             }
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
           >
@@ -77,7 +75,7 @@ export const NewForm = ({
           <select
             value={formData.priority}
             onChange={(e) =>
-              setFormData({ ...formData, priority: e.target.value })
+              setFormData({ ...formData, priority: parseInt(e.target.value) })
             }
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
           >
@@ -101,10 +99,16 @@ export const NewForm = ({
           Fecha Límite *
         </label>
         <DatePicker
-          selected={formData.expiration_time}
-          onChange={(date) =>
-            setFormData({ ...formData, expiration_time: date })
+          selected={
+            typeof formData.expiration_time === "string"
+              ? new Date(formData.expiration_time)
+              : formData.expiration_time
           }
+          onChange={(date: Date | null) => {
+            if (date) {
+              setFormData({ ...formData, expiration_time: date });
+            }
+          }}
           minDate={new Date()}
           dateFormat="dd/MM/yyyy HH:mm"
           showTimeSelect
@@ -118,7 +122,7 @@ export const NewForm = ({
           type="button"
           className="px-4 py-2 text-gray-600 hover:text-gray-800"
           onClick={() => {
-            /* Lógica para cerrar modal */
+            window.location.href = "/"; // Redirigir a la página de tareas
           }}
         >
           Cancelar

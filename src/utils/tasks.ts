@@ -2,13 +2,12 @@ export type Fecha =
   `${number}-${number}-${number} ${number}:${number}:${number}`;
 
 export interface NewTask {
-  id: number;
   title: string;
   description?: string;
   priority: number;
   status: number;
   expiration_time: string | Date;
-  creation_time?: string | Date;
+  creation_time?: Date;
 }
 
 export interface UpdateTask {
@@ -56,7 +55,7 @@ export const getTasks = async () => {
 };
 
 // This function fetches tasks by their status from the API and returns a backend message.
-export const createTask = async (task: UpdateTask) => {
+export const createTask = async (task: NewTask) => {
   const URL = `${API_HOSTNAME}/tareas`;
   const token = localStorage.getItem("token");
   try {
@@ -74,7 +73,8 @@ export const createTask = async (task: UpdateTask) => {
     if (response.status === 422 || response.status === 401) {
       window.location.href = "/login";
     }
-    if (response.status === 200) return response.json();
+    if (response.status === 200 || response.status === 201)
+      return response.json();
   } catch (error) {
     console.error("Error creating task:", error);
     return null;

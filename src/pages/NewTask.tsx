@@ -1,24 +1,37 @@
-import { NewForm } from "@components/NewTaskForm";
+import { NewForm } from "@/components/NewTaskForm";
 import { createTask } from "@/utils/tasks";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
+import { NewTask as NewTaskType } from "@/utils/tasks";
 
 export const NewTask = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<NewTaskType>({
     title: "",
     description: "",
     status: 0,
-    priority: 0,
+    priority: 1,
     expiration_time: new Date(),
   });
 
-  const handleSubmit = async (e: ReactFormEventHandler<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const localDate = new Date(formData.expiration_time || new Date());
+    const adjustedDate = new Date(
+      Date.UTC(
+        localDate.getFullYear(),
+        localDate.getMonth(),
+        localDate.getDate(),
+        localDate.getHours(),
+        localDate.getMinutes(),
+      ),
+    );
+
     try {
       const response = await createTask({
         ...formData,
-        expiration_time: formData.expiration_time.toISOString(),
+        expiration_time: adjustedDate.toISOString(),
       });
       if (response) {
         toast.success("Tarea creada exitosamente!");
