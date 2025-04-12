@@ -130,13 +130,35 @@ export const TableTasks = ({
             <td className="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900 uppercase">
               {task.title}
             </td>
-            <td className="max-w-xs truncate px-6 py-4 text-sm text-gray-500">
-              {task.description}
+            <td className="max-w-xs truncate px-6 py-4 text-sm text-gray-500 select-none">
+              <textarea className="h-16 w-64" readOnly>
+                {task.description}
+              </textarea>
             </td>
-            <td className="flex items-center justify-between px-6 py-4">
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+            <td className="px-6 py-4 font-medium whitespace-nowrap text-gray-900 uppercase">
+              <div
+                className={`flex w-fit rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 ${
+                  task.status_id === 0
+                    ? "bg-red-100 text-red-800"
+                    : task.status_id === 1
+                      ? "bg-yellow-100 text-yellow-800"
+                      : task.status_id === 2
+                        ? "bg-green-100 text-green-800"
+                        : task.status_id === 3
+                          ? "bg-blue-100 text-blue-800"
+                          : task.status_id === 4
+                            ? "bg-purple-100 text-purple-800"
+                            : task.status_id === 5
+                              ? "bg-pink-100 text-pink-800"
+                              : task.status_id === 6
+                                ? "bg-gray-100 text-gray-800"
+                                : task.status_id === 7
+                                  ? "bg-orange-100 text-orange-800"
+                                  : "bg-blue-100 text-blue-800"
+                } `}
+              >
                 {task.status}
-              </span>
+              </div>
             </td>
             <td className="px-6 py-4 text-sm text-gray-500">{task.priority}</td>
             <td className="px-6 py-4 text-sm text-gray-500">
