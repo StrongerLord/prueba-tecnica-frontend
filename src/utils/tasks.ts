@@ -44,7 +44,7 @@ export const getTasks = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (response.status === 422 || response.status === 401) {
+    if ([422, 401, 403].includes(response.status)) {
       window.location.href = "/login";
     }
     if (response.status === 200) return response.json();
@@ -70,7 +70,7 @@ export const createTask = async (task: NewTask) => {
     if (!response.ok) {
       throw new Error("Error creating task");
     }
-    if (response.status === 422 || response.status === 401) {
+    if ([422, 401, 403].includes(response.status)) {
       window.location.href = "/login";
     }
     if (response.status === 200 || response.status === 201)
@@ -96,7 +96,7 @@ export const getTask = async (id: number) => {
     if (!response.ok) {
       throw new Error("Error fetching task");
     }
-    if (response.status === 422 || response.status === 401) {
+    if ([422, 401, 403].includes(response.status)) {
       window.location.href = "/login";
     }
     if (response.status === 200) return response.json();
@@ -122,7 +122,7 @@ export const updateTask = async (task: UpdateTask) => {
     if (!response.ok) {
       throw new Error("Error updating task");
     }
-    if (response.status === 422 || response.status === 401) {
+    if ([422, 401, 403].includes(response.status)) {
       window.location.href = "/login";
     }
     if (response.status === 200) return response.json();
@@ -147,7 +147,7 @@ export const deleteTask = async (id: number) => {
     if (!response.ok) {
       throw new Error("Error deleting task");
     }
-    if (response.status === 422 || response.status === 401) {
+    if ([422, 401, 403].includes(response.status)) {
       window.location.href = "/login";
     }
     if (response.status === 200) return response.json();
