@@ -1,5 +1,6 @@
 import { Task } from "@/utils/tasks";
 import { formatDate } from "@/utils/date";
+import { useState, useMemo } from "react";
 import Trash from "@assets/trash.svg";
 
 type TableTasksProps = {
@@ -13,27 +14,96 @@ export const TableTasks = ({
   deletingID,
   submitDeleteTask,
 }: TableTasksProps) => {
+  const [sortConfig, setSortConfig] = useState<{
+    field: keyof Task | null;
+    direction: "asc" | "desc";
+  }>({
+    field: null,
+    direction: "asc",
+  });
+
+  const handleSort = (field: keyof Task) => {
+    if (sortConfig.field === field) {
+      setSortConfig((prev) => ({
+        field,
+        direction: prev.direction === "asc" ? "desc" : "asc",
+      }));
+    } else {
+      setSortConfig({ field, direction: "asc" });
+    }
+  };
+
+  const sortedTasks = useMemo(() => {
+    const tasksCopy = [...task];
+
+    if (!sortConfig.field) return tasksCopy;
+
+    return tasksCopy.sort((a, b) => {
+      const valueA = sortConfig.field ? a[sortConfig.field] : null;
+      const valueB = sortConfig.field ? b[sortConfig.field] : null;
+
+      const comparison =
+        typeof valueA === "number"
+          ? Number(valueA) - Number(valueB)
+          : typeof valueA === "string" && typeof valueB === "string"
+            ? valueA.localeCompare(valueB)
+            : 0;
+
+      return sortConfig.direction === "asc" ? comparison : -comparison;
+    });
+  }, [task, sortConfig]);
+
   return (
     <table className="h-auto w-auto divide-y">
       <thead className="">
         <tr>
-          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <th
+            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+            onClick={() => handleSort("title")}
+          >
             Título
+            {sortConfig.field === "title" &&
+              (sortConfig.direction === "asc" ? "▲" : "▼")}
           </th>
-          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <th
+            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+            onClick={() => handleSort("description")}
+          >
             Descripción
+            {sortConfig.field === "description" &&
+              (sortConfig.direction === "asc" ? "▲" : "▼")}
           </th>
-          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <th
+            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+            onClick={() => handleSort("status")}
+          >
             Estado
+            {sortConfig.field === "status" &&
+              (sortConfig.direction === "asc" ? "▲" : "▼")}
           </th>
-          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <th
+            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+            onClick={() => handleSort("priority_id")}
+          >
             Prioridad
+            {sortConfig.field === "priority_id" &&
+              (sortConfig.direction === "asc" ? "▲" : "▼")}
           </th>
-          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <th
+            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+            onClick={() => handleSort("creation_time")}
+          >
             Creación
+            {sortConfig.field === "creation_time" &&
+              (sortConfig.direction === "asc" ? "▲" : "▼")}
           </th>
-          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <th
+            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+            onClick={() => handleSort("expiration_time")}
+          >
             Expiración
+            {sortConfig.field === "expiration_time" &&
+              (sortConfig.direction === "asc" ? "▲" : "▼")}
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
             Eliminar
@@ -41,7 +111,7 @@ export const TableTasks = ({
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200 bg-white">
-        {task.map((task) => (
+        {sortedTasks.map((task) => (
           <tr
             key={task.id}
             className={`${deletingID === task.id ? "bg-red-300" : "hover:bg-gray-50"}`}
