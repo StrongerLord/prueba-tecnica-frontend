@@ -1,5 +1,6 @@
 import DatePicker from "react-datepicker";
 import { NewTask } from "@/utils/tasks";
+import { useNavigate } from "react-router";
 
 interface NewFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -12,6 +13,7 @@ export const NewForm = ({
   formData,
   setFormData,
 }: NewFormProps) => {
+  const navigate = useNavigate();
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Título */}
@@ -124,7 +126,7 @@ export const NewForm = ({
           type="button"
           className="px-4 py-2 text-gray-600 hover:text-gray-800"
           onClick={() => {
-            window.location.href = "/"; // Redirigir a la página de tareas
+            navigate("/");
           }}
         >
           Cancelar

@@ -1,22 +1,13 @@
 import DatePicker from "react-datepicker";
-
-type FormData = {
-  title: string;
-  description: string;
-  status: number;
-  status_message: string;
-  priority_message: string;
-  priority: number;
-  expiration_time: Date;
-};
+import { UpdateTask } from "@/utils/tasks";
 
 type UpdateTaskFormProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   setTaskId: React.Dispatch<React.SetStateAction<number>>;
   setTaskFound: React.Dispatch<React.SetStateAction<boolean>>;
   taskFound: boolean;
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  formData: UpdateTask;
+  setFormData: React.Dispatch<React.SetStateAction<UpdateTask>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -120,7 +111,11 @@ export const UpdateTaskForm = ({
         </label>
         <DatePicker
           disabled={!taskFound}
-          selected={formData.expiration_time}
+          selected={
+            typeof formData.expiration_time === "string"
+              ? new Date(formData.expiration_time)
+              : formData.expiration_time
+          }
           onChange={(date: Date | null) => {
             if (date) {
               setFormData({ ...formData, expiration_time: date });
