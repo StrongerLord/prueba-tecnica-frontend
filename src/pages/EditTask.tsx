@@ -1,23 +1,24 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { getTask, updateTask } from "@/utils/tasks";
+import { UpdateTask, getTask, updateTask } from "@/utils/tasks";
 import { toast } from "react-toastify";
 import { UpdateTaskForm } from "@/components/UpdateTaskForm";
+import { useNavigate } from "react-router";
 
 export const EditTask = () => {
   const [taskId, setTaskId] = useState(0);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UpdateTask>({
+    id: taskId,
     title: "",
     description: "",
     status: 0,
-    status_message: "",
-    priority_message: "",
     priority: 0,
     expiration_time: new Date(),
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [taskFound, setTaskFound] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     if (!taskId) {
@@ -30,12 +31,11 @@ export const EditTask = () => {
       const task = await getTask(taskId);
       if (task) {
         setFormData({
+          id: taskId,
           title: task.title,
           description: task.description,
-          status_message: task.status,
-          priority_message: task.priority,
-          status: task.status_id,
           priority: task.priority_id,
+          status: task.status_id,
           expiration_time: new Date(task.expiration_time),
         });
         setTaskFound(true);
@@ -79,12 +79,12 @@ export const EditTask = () => {
       const response = await updateTask(updatedTask);
       if (response) {
         toast.success("Tarea actualizada correctamente");
+        navigate("/");
         setTaskId(0);
         setFormData({
+          id: 0,
           title: "",
           description: "",
-          status_message: "",
-          priority_message: "",
           status: 0,
           priority: 0,
           expiration_time: new Date(),

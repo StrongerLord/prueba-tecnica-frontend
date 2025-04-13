@@ -13,7 +13,6 @@ export const Login = () => {
 
     try {
       await login(email, password);
-      toast.success("Inicio de sesión exitoso");
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       toast.error("Error al iniciar sesión");
