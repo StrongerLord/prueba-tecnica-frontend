@@ -2,6 +2,7 @@ import { Task } from "@/utils/tasks";
 import { formatDate } from "@/utils/date";
 import { useState, useMemo } from "react";
 import Trash from "@assets/trash.svg";
+import { colorFromStatus } from "@/utils/colorFromStatus";
 
 type TableTasksProps = {
   task: Task[];
@@ -139,25 +140,9 @@ export const TableTasks = ({
             </td>
             <td className="px-6 py-4 font-medium whitespace-nowrap text-gray-900 uppercase">
               <div
-                className={`flex w-fit rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 ${
-                  task.status_id === 0
-                    ? "bg-red-100 text-red-800"
-                    : task.status_id === 1
-                      ? "bg-yellow-100 text-yellow-800"
-                      : task.status_id === 2
-                        ? "bg-green-100 text-green-800"
-                        : task.status_id === 3
-                          ? "bg-blue-100 text-blue-800"
-                          : task.status_id === 4
-                            ? "bg-purple-100 text-purple-800"
-                            : task.status_id === 5
-                              ? "bg-pink-100 text-pink-800"
-                              : task.status_id === 6
-                                ? "bg-gray-100 text-gray-800"
-                                : task.status_id === 7
-                                  ? "bg-orange-100 text-orange-800"
-                                  : "bg-blue-100 text-blue-800"
-                } `}
+                className={`flex w-fit rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 ${colorFromStatus(
+                  task.status_id,
+                )} `}
               >
                 {task.status}
               </div>
