@@ -1,5 +1,5 @@
 import DatePicker from "react-datepicker";
-import { UpdateTask } from "@/utils/tasks";
+import { UpdateTask } from "@/types/tasks";
 
 type UpdateTaskFormProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;

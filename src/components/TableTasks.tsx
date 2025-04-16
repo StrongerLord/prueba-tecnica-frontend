@@ -1,4 +1,4 @@
-import { Task } from "@/utils/tasks";
+import { Task } from "@/types/tasks";
 import { formatDate } from "@/utils/date";
 import { useState, useMemo } from "react";
 import Trash from "@assets/trash.svg";

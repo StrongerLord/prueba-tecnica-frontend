@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getTasks, deleteTask } from "@/utils/tasks";
-import { Task } from "@/utils/tasks";
+import { Task } from "@/types/tasks";
 import { toast } from "react-toastify";
 import { TableTasks } from "@/components/TableTasks";
 

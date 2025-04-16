@@ -1,35 +1,4 @@
-export type Fecha =
-  `${number}-${number}-${number} ${number}:${number}:${number}`;
-
-export interface NewTask {
-  title: string;
-  description?: string;
-  priority: number;
-  status: number;
-  expiration_time: string | Date;
-  creation_time?: Date;
-}
-
-export interface UpdateTask {
-  id: number;
-  title: string;
-  description?: string;
-  priority: number;
-  status: number;
-  expiration_time: string | Date;
-}
-
-export interface Task {
-  id: number;
-  title: string;
-  description?: string;
-  priority: string;
-  priority_id: number;
-  status_id: number;
-  status: string;
-  expiration_time: string | Date;
-  creation_time?: string | Date;
-}
+import { NewTask, UpdateTask } from "@/types/tasks";
 
 const API_HOSTNAME = import.meta.env.VITE_BACKEND_HOSTNAME;
 const URL = `${API_HOSTNAME}/tareas`;

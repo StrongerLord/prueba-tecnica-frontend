@@ -1,5 +1,5 @@
 import DatePicker from "react-datepicker";
-import { NewTask } from "@/utils/tasks";
+import { NewTask } from "@/types/tasks";
 import { useNavigate } from "react-router";
 
 interface NewFormProps {
