@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { UpdateTask, getTask, updateTask } from "@/utils/tasks";
+import { getTask, updateTask } from "@/utils/tasks";
+import { UpdateTask } from "@/types/tasks";
 import { toast } from "react-toastify";
 import { UpdateTaskForm } from "@/components/UpdateTaskForm";
 import { useNavigate } from "react-router";

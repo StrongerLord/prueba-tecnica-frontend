@@ -3,7 +3,7 @@ import { createTask } from "@/utils/tasks";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
-import { NewTask as NewTaskType } from "@/utils/tasks";
+import { NewTask as NewTaskType } from "@/types/tasks";
 
 export const NewTask = () => {
   const [formData, setFormData] = useState<NewTaskType>({
